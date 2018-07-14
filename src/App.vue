@@ -2,8 +2,14 @@
     #app
       img(src='./assets/logo.png')
       h1 {{ appName }}
+      hr
+      br
       select(v-model="selectedCountryValue")
         option(v-for="country in countries" :value="country.value") {{country.name}}
+      
+      //- spinner(v-show="loading")
+      br
+      <ring-loader :loading="loading" color="#35495e" size="28px"></ring-loader>
       ul
         artist(v-for="artist in artists" :artist="artist" :key="artist.mbid")
   </template>
@@ -12,12 +18,15 @@
 //import getArtists from './api'
 import artistService from './api'
 import Artist from './components/artist/Artist.vue'
+//import Spinner from './components/Spinner.vue'
+import RingLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
   name: 'app',
   data () {
     return {
       appName: 'Music App',
+      loading: false,
       artists: [],
       countries: [
         {
@@ -36,15 +45,20 @@ export default {
   methods: {
     getAll: function (){
       this.artists = []
+      this.loading = true
+      console.log('loading', this.loading)
       artistService.getAll(this.selectedCountryValue)
-          .then(res => {
-              console.log(this.selectedCountryValue)
+          .then(res => {            
+              this.loading = false
+              console.log('loading', this.loading)
               this.artists = res
           })
     }
   },
   components: {
-    Artist
+    Artist,
+    //Spinner
+    RingLoader
   },
   watch: {
     selectedCountryValue: function(){
@@ -54,7 +68,7 @@ export default {
   mounted() {
     console.log('componente montado en el DOM...')
     this.selectedCountryValue = this.countries[0].value
-    this.getAll()
+    //this.getAll()
   }
 }
 </script>
