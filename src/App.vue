@@ -2,6 +2,8 @@
     #app
       img(src='./assets/logo.png')
       h1 {{ appName }}
+      select(v-model="selectedCountryValue")
+        option(v-for="country in countries" :value="country.value") {{country.name}}
       ul
         artist(v-for="artist in artists" :artist="artist" :key="artist.mbid")
   </template>
@@ -16,14 +18,27 @@ export default {
   data () {
     return {
       appName: 'Music App',
-      artists: []
+      artists: [],
+      countries: [
+        {
+          name: 'Argentina', value: 'argentina'
+        },
+        {
+          name: 'Colombia', value: 'colombia'
+        },
+        {
+          name: 'España', value: 'spain'
+        }
+      ],
+      selectedCountryValue: null
     }
   },
   methods: {
     getAll: function (){
-      artistService.getAll()
+      this.artists = []
+      artistService.getAll(this.selectedCountryValue)
           .then(res => {
-              console.log('artist -> ', res)
+              console.log(this.selectedCountryValue)
               this.artists = res
           })
     }
@@ -31,8 +46,14 @@ export default {
   components: {
     Artist
   },
+  watch: {
+    selectedCountryValue: function(){
+      this.getAll()
+    }
+  },
   mounted() {
     console.log('componente montado en el DOM...')
+    this.selectedCountryValue = this.countries[0].value
     this.getAll()
   }
 }
