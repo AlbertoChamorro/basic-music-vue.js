@@ -3,12 +3,13 @@
       img(src='./assets/logo.png')
       h1 {{ appName }}
       ul
-        li(v-for="artist in artists") {{ artist.name }}
+        artist(v-for="artist in artists" :artist="artist" :key="artist.mbid")
   </template>
 <script>
 
 //import getArtists from './api'
 import artistService from './api'
+import Artist from './components/artist/Artist.vue'
 
 export default {
   name: 'app',
@@ -27,6 +28,9 @@ export default {
           })
     }
   },
+  components: {
+    Artist
+  },
   mounted() {
     console.log('componente montado en el DOM...')
     this.getAll()
@@ -34,7 +38,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
     #app
       font-family 'Avenir', Helvetica, Arial, sans-serif
       -webkit-font-smoothing antialiased
