@@ -1,7 +1,7 @@
 import config from './config'
 const { apiKey } = config;
 
-const BASE_URL =  'http://ws.audioscrobbler.com/2.0/?method='
+const BASE_URL =  'https://ws.audioscrobbler.com/2.0/?method='
 const restService = 'json'
 
 function getAll(country){
