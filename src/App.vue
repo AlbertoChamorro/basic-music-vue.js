@@ -1,6 +1,6 @@
 <template lang="pug">
     #app
-      img(src='./assets/logo.png')
+      img(src='https://albertochamorro.github.io/basic-music-vue.js/dist/logo.png')
       h1 {{ appName }}
       hr
       br
