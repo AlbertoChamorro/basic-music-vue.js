@@ -3,9 +3,8 @@ const { apiKey } = config;
 
 const BASE_URL =  'http://ws.audioscrobbler.com/2.0/?method='
 const restService = 'json'
-const country = 'spain'
 
-function getAll(){
+function getAll(country){
     const actionName = 'geo.gettopartists'
     const headers = `&country=${country}&${commonHeaders()}`
     const endPoint = `${BASE_URL}${actionName}${headers}`
